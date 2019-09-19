@@ -1,8 +1,8 @@
-package test.com.tax;
+package com.tax;
 
-import test.com.tax.bracket.Bracket;
-import test.com.tax.bracket.BracketInterval;
-import test.com.tax.manager.BracketManager;
+import com.tax.manager.BracketManager;
+import com.tax.bracket.Bracket;
+import com.tax.bracket.BracketInterval;
 
 import java.util.Arrays;
 import java.util.UUID;

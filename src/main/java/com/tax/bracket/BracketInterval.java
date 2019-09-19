@@ -1,4 +1,4 @@
-package test.com.tax.bracket;
+package com.tax.bracket;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

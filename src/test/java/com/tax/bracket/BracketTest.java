@@ -1,4 +1,4 @@
-package test.com.tax.bracket;
+package com.tax.bracket;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

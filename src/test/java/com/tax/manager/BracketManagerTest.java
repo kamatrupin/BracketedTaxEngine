@@ -1,10 +1,10 @@
-package test.com.tax.manager;
+package com.tax.manager;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.com.tax.bracket.Bracket;
-import test.com.tax.bracket.BracketInterval;
+import com.tax.bracket.Bracket;
+import com.tax.bracket.BracketInterval;
 
 import java.util.Arrays;
 import java.util.List;

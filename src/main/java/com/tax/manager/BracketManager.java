@@ -1,7 +1,7 @@
-package test.com.tax.manager;
+package com.tax.manager;
 
-import test.com.tax.bracket.Bracket;
-import test.com.tax.bracket.BracketInterval;
+import com.tax.bracket.Bracket;
+import com.tax.bracket.BracketInterval;
 
 import java.util.*;
 
