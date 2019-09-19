@@ -36,4 +36,9 @@ public class BracketManagerTest {
         Assert.assertEquals(brackets.size(), 1);
         Assert.assertEquals(uuid, brackets.keySet().iterator().next());
     }
+
+    @Test
+    public void testCalculateTaxAmountForBatch() {
+
+    }
 }

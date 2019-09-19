@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 public class TaxEngine {
+
     public static void main(String[] args) {
 
         String [] int1 = args[0].split(",");
         String [] int2 = args[1].split(",");
         String [] int3 = args[2].split(",");
         String [] int4 = args[3].split(",");
-
-        String [] inputs = args[4].split(",");
-        String [] inputsBulk = args[5].split(",");
 
         BracketManager manager = BracketManager.getInstance();
         String uuid = UUID.randomUUID().toString();
@@ -29,25 +29,16 @@ public class TaxEngine {
                 new BracketInterval(Double.valueOf(int4[0]), Double.valueOf(int4[1]), Double.valueOf(int4[2])))));
         manager.setActiveBracket(uuid);
 
-        System.out.println("------------- Single calculations ------------");
         try {
-            for(String input : inputs) {
-                System.out.println(manager.calculateTaxAmount(Double.valueOf(input)));
+            System.out.println("------------- Single calculations ------------");
+            Stream.of(args[4].split(",")).forEach(input -> CompletableFuture.supplyAsync(() -> manager.calculateTaxAmount(Double.valueOf(input))).thenAccept(System.out::println));
+
+            System.out.println("------------- Bulk calculations ------------");
+            // Bulk calculations
+            List<Customer> customers = new ArrayList<>();
+            for(String input : args[5].split(",")) {
+                customers.add(new Customer(UUID.randomUUID().toString(), Double.valueOf(input)));
             }
-        } catch (Exception e) {
-            // Log the exception
-            e.printStackTrace();
-        }
-
-        System.out.println("------------- Bulk calculations ------------");
-
-        // Bulk calculations
-        List<Customer> customers = new ArrayList<>();
-        for(String input : inputsBulk) {
-            customers.add(new Customer(UUID.randomUUID().toString(), Double.valueOf(input)));
-        }
-
-        try {
             manager.calculateTaxAmountForBatch(customers);
             customers.stream().forEach(System.out::println);
         } catch (Exception e) {

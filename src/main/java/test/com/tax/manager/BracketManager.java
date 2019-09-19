@@ -4,6 +4,7 @@ import test.com.tax.bracket.Bracket;
 import test.com.tax.bracket.BracketInterval;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class BracketManager {
 
@@ -36,13 +37,14 @@ public class BracketManager {
         this.activeBracket = activeBracket;
     }
 
-    public double calculateTaxAmount(double income) throws Exception {
+    public double calculateTaxAmount(double income) {
         return bracketsCache.get(activeBracket).calculateTaxAmount(income);
     }
 
-    public void calculateTaxAmountForBatch(List<Customer> customers) throws Exception {
-        for(Customer customer : customers) {
-            customer.setTaxAmount(bracketsCache.get(activeBracket).calculateTaxAmount(customer.getIncome()));
-        }
+    public void calculateTaxAmountForBatch(List<Customer> customers) {
+        customers.stream().forEach(
+                customer -> CompletableFuture.supplyAsync(() -> bracketsCache.get(activeBracket)
+                        .calculateTaxAmount(customer.getIncome()))
+                        .thenAccept(taxAmount -> customer.setTaxAmount(taxAmount)));
     }
 }
