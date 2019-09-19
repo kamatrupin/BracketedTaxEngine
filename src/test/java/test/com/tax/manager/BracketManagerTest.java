@@ -22,23 +22,17 @@ public class BracketManagerTest {
 
     @Test
     public void testBracketFlow() {
-        // No brackets
         Map<String, List<BracketInterval>> brackets = bracketManager.getBrackets();
-        Assert.assertEquals(brackets.size(), 0);
+        Assert.assertEquals(brackets.size(), 1);
 
-        // Add brackets
+        // Add a bracket
         String uuid = UUID.randomUUID().toString();
         bracketManager.addABraket(uuid, new Bracket(Arrays.asList(new BracketInterval(50000.0, null, 30.0),
                 new BracketInterval(20000.0, 50000.0, 20.0),
                 new BracketInterval(10000.0, 20000.0, 10.0),
                 new BracketInterval(0.0, 10000.0, 0.0))));
         brackets = bracketManager.getBrackets();
-        Assert.assertEquals(brackets.size(), 1);
-        Assert.assertEquals(uuid, brackets.keySet().iterator().next());
-    }
-
-    @Test
-    public void testCalculateTaxAmountForBatch() {
-
+        Assert.assertEquals(brackets.size(), 2);
+        Assert.assertTrue(brackets.keySet().contains(uuid));
     }
 }

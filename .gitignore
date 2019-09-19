@@ -3,3 +3,4 @@ src/test/java/test/com/.DS_Store
 .DS_Store
 *.xml
 *.class
+*.kotlin_module

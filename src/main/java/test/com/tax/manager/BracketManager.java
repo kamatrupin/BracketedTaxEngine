@@ -4,7 +4,6 @@ import test.com.tax.bracket.Bracket;
 import test.com.tax.bracket.BracketInterval;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public class BracketManager {
 
@@ -15,7 +14,19 @@ public class BracketManager {
     private BracketManager() {
     }
 
+    private static void setUp() {
+        // Fetch the bracketes from DB and setup the manager
+        String uuid = UUID.randomUUID().toString();
+        bracketManager.addABraket(uuid, new Bracket(Arrays.asList(new BracketInterval(50000.0, null, 30.0),
+                new BracketInterval(20000.0, 50000.0, 20.0),
+                new BracketInterval(10000.0, 20000.0, 10.0),
+                new BracketInterval(0.0, 10000.0, 0.0))));
+
+        bracketManager.setActiveBracket(uuid);
+    }
+
     public static BracketManager getInstance() {
+        setUp();
         return bracketManager;
     }
 
@@ -39,12 +50,5 @@ public class BracketManager {
 
     public double calculateTaxAmount(double income) {
         return bracketsCache.get(activeBracket).calculateTaxAmount(income);
-    }
-
-    public void calculateTaxAmountForBatch(List<Customer> customers) {
-        customers.stream().forEach(
-                customer -> CompletableFuture.supplyAsync(() -> bracketsCache.get(activeBracket)
-                        .calculateTaxAmount(customer.getIncome()))
-                        .thenAccept(taxAmount -> customer.setTaxAmount(taxAmount)));
     }
 }
